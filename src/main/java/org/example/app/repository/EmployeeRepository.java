@@ -3,9 +3,9 @@ package org.example.app.repository;
 import org.example.app.database.DBConn;
 import org.example.app.entity.Employee;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +22,27 @@ public class EmployeeRepository {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.log(Level.WARNING, e.getMessage(), e);
+        }
+    }
+
+    public List<Employee> readEmployee(){
+        List<Employee> list = new ArrayList<>();
+        String sql = "SELECT * FROM employee";
+        try (Connection connection = DBConn.connection();
+             Statement statement = connection.createStatement()){
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                list.add(new Employee(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("position"),
+                        resultSet.getString("phone")
+                ));
+            }
+            return list;
+        }catch (SQLException e){
+            LOGGER.log(Level.WARNING, e.getMessage(), e);
+            return list;
         }
     }
 }
