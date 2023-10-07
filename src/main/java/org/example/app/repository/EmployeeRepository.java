@@ -80,4 +80,16 @@ public void updateEmployee(Employee employee){
         LOGGER.log(Level.WARNING, e.getMessage(), e);
     }
 }
+
+public void deleteEmployee(Employee employee){
+    String sql = "DELETE FROM books where id = ?";
+    // try-with-resources statement for automatic disconnect from DB
+    try (Connection conn = DBConn.connection();
+         PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        preparedStatement.setInt(1, employee.getId());
+        preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+        LOGGER.log(Level.WARNING, e.getMessage(), e);
+    }
+}
 }
