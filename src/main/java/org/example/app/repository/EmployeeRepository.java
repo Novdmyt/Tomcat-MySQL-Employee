@@ -5,6 +5,7 @@ import org.example.app.entity.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ public class EmployeeRepository {
     private static final Logger LOGGER = Logger.getLogger(EmployeeRepository.class.getName());
 
     public void createEmployee(Employee employee){
-        String sql = "INSERT INTO books (name, position, phone) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO employees (name, position, phone) VALUES (?, ?, ?)";
         try(Connection connection = DBConn.connection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setString(1, employee.getName());
@@ -42,7 +43,7 @@ public class EmployeeRepository {
             return list;
         }catch (SQLException e){
             LOGGER.log(Level.WARNING, e.getMessage(), e);
-            return list;
+            return Collections.emptyList();
         }
     }
 
@@ -50,7 +51,7 @@ public class EmployeeRepository {
 Employee employee = null;
 String sql = "SELECT * FROM employees WHERE id = ?";
 try (Connection connection = DBConn.connection();
-PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+     PreparedStatement preparedStatement = connection.prepareStatement(sql)){
     preparedStatement.setInt(1, id);
     ResultSet resultSet = preparedStatement.executeQuery();
     if(resultSet.next()){
@@ -68,7 +69,7 @@ PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 return employee;
     }
 public void updateEmployee(Employee employee){
-        String sql = "UPDATE books SET name = ?, position = ?, phone = ? WHERE id = ?";
+        String sql = "UPDATE employees SET name = ?, position = ?, phone = ? WHERE id = ?";
     try (Connection conn = DBConn.connection();
          PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
         preparedStatement.setString(1, employee.getName());
@@ -82,7 +83,7 @@ public void updateEmployee(Employee employee){
 }
 
 public void deleteEmployee(Employee employee){
-    String sql = "DELETE FROM books where id = ?";
+    String sql = "DELETE FROM employees where id = ?";
     // try-with-resources statement for automatic disconnect from DB
     try (Connection conn = DBConn.connection();
          PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
