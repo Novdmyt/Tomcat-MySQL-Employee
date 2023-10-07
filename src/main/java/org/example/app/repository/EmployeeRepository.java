@@ -27,7 +27,7 @@ public class EmployeeRepository {
 
     public List<Employee> readEmployee(){
         List<Employee> list = new ArrayList<>();
-        String sql = "SELECT * FROM employee";
+        String sql = "SELECT * FROM employees";
         try (Connection connection = DBConn.connection();
              Statement statement = connection.createStatement()){
             ResultSet resultSet = statement.executeQuery(sql);
@@ -45,4 +45,27 @@ public class EmployeeRepository {
             return list;
         }
     }
+
+    public Employee getEmployeeId(int id){
+Employee employee = null;
+String sql = "SELECT * FROM employees WHERE id = ?";
+try (Connection connection = DBConn.connection();
+PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+    preparedStatement.setInt(1, id);
+    ResultSet resultSet = preparedStatement.executeQuery();
+    if(resultSet.next()){
+        employee = new Employee(
+                id,
+                resultSet.getString("name"),
+                resultSet.getString("position"),
+                resultSet.getString("phone")
+        );
+    }
+    preparedStatement.executeUpdate();
+}catch (SQLException e){
+    LOGGER.log(Level.WARNING, e.getMessage(), e);
+}
+return employee;
+    }
+
 }
