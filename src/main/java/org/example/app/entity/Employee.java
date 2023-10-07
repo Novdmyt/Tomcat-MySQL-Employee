@@ -10,13 +10,15 @@ public class Employee {
         this.id = id;
     }
 
-    public Employee(String position, String phone){
+    public Employee(String name, String position, String phone){
+        this.name = name;
         this.position = position;
         this.phone = phone;
     }
 
-    public Employee(int id, String position, String phone){
+    public Employee(int id, String name, String position, String phone){
         this.id = id;
+        this.name = name;
         this.position = position;
         this.phone = phone;
     }
