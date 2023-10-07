@@ -67,5 +67,17 @@ PreparedStatement preparedStatement = connection.prepareStatement(sql)){
 }
 return employee;
     }
-
+public void updateEmployee(Employee employee){
+        String sql = "UPDATE books SET name = ?, position = ?, phone = ? WHERE id = ?";
+    try (Connection conn = DBConn.connection();
+         PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+        preparedStatement.setString(1, employee.getName());
+        preparedStatement.setString(2, employee.getPosition());
+        preparedStatement.setString(3, employee.getPhone() );
+        preparedStatement.setInt(4, employee.getId());
+        preparedStatement.executeUpdate();
+    } catch (SQLException e) {
+        LOGGER.log(Level.WARNING, e.getMessage(), e);
+    }
+}
 }
