@@ -41,13 +41,13 @@ public class EmployeeController extends HttpServlet {
             throws SQLException, IOException, ServletException {
         List<Employee> listEmployee = repository.readEmployee();
         request.setAttribute("listEmployee", listEmployee);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/book_list.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/employee_list.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showNewFrom(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException{
-        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/book_form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/employee_form.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -55,7 +55,7 @@ public class EmployeeController extends HttpServlet {
             throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         Employee existingEmployee = repository.getEmployeeId(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/book_form.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("pages/employee_form.jsp");
         request.setAttribute("employee", existingEmployee);
         dispatcher.forward(request, response);
     }
